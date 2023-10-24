@@ -401,15 +401,7 @@ class BoxVisualisation:
         """инициализация"""
         self.math_object = math_object
         self.level = level
-        if self.level is not None and isinstance(self.level, str):
-            self.rank = (self.math_object
-                         .df
-                         .groupby(self.level)[self.math_object.column]
-                         .median()
-                         .fillna(0)
-                         .sort_values()[::-1]
-                         .index)
-        elif self.level is not None and not isinstance(self.level, str):
+        if self.level is not None and not isinstance(self.level, str):
             raise TypeError('suplements parametr must be str')
         elif self.level is not None and self.level not in set(self.math_object
                                                               .df
@@ -435,7 +427,7 @@ class BoxVisualisation:
         if self.level is not None:
             sns.boxplot(x=self.math_object.df[self.math_object.column],
                         y=self.math_object.df[self.level],
-                        order=self.rank, color='mediumpurple')
+                        color='mediumpurple')
         else:
             sns.boxplot(x=self.math_object.df[self.math_object.column])
         plt.show()
@@ -447,10 +439,8 @@ class BoxVisualisation:
         plt.title('Приближенный бокс-плот')
         if self.level is not None:
             sns.boxplot(x=self.math_object.df[self.math_object.column],
-                        y=self.math_object.df[self.level],
-                        order=self.rank, color='mediumpurple').set_xlim(
-                [self.math_object.min_not_anomal,
-                    self.math_object.max_not_anomal])
+                        y=self.math_object.df[self.level], showcaps=False,
+                        color='mediumpurple')
         else:
             sns.boxplot(x=self.math_object
                         .df[self.math_object.column]).set_xlim(
